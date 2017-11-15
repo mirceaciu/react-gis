@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
-import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import {judete} from './judete.js'
 
 class SoundMap extends Component {
@@ -32,6 +31,16 @@ class SoundMap extends Component {
     }
   }
 
+  onEachFeature(feature, layer) {
+    const mover = () => {console.log("Click")};
+    // const clk = () => {layer.bindPopup(feature.properties.NAME)};
+    const sing = () => {alert('LAA')};
+    layer.on({
+      click: sing,
+      mouseover: mover
+    });
+  }
+
   render() {
     const position = [this.state.lat, this.state.lng];
     return (
@@ -44,7 +53,7 @@ class SoundMap extends Component {
             maxZoom={7}
             minZoom= {6}
           />
-          <GeoJSON data={getGeoJson()} style={this.getStyle} />
+          <GeoJSON data={getGeoJson()} style={this.getStyle} onEachFeature={this.onEachFeature}/>
         </Map>
     )
   }
